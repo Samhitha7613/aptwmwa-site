@@ -1614,13 +1614,24 @@ function showGalleryState(state) {
 
 async function fetchGallery() {
   showGalleryState("loading");
+
   try {
     const querySnapshot = await getDocs(collection(db, "image"));
+
+    console.log("Gallery docs found:", querySnapshot.size);
+
     allGallery = [];
-    querySnapshot.forEach((doc) => { allGallery.push({ id: doc.id, ...doc.data() }); });
+
+    querySnapshot.forEach((doc) => {
+      console.log("DOC:", doc.id, doc.data());
+      allGallery.push({ id: doc.id, ...doc.data() });
+    });
+
     displayGallery("all");
+
   } catch (err) {
-    console.error("Gallery fetch error:", err);
+    console.error("FULL GALLERY ERROR:", err);
+    alert(err.message);
     showGalleryState("error");
   }
 }
@@ -1675,7 +1686,7 @@ modal.onclick = (e) => {
 
 /* LOAD BOTH */
 
-fetchNews();
+//fetchNews();
 fetchGallery();
 
 </script>
